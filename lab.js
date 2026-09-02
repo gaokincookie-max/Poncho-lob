@@ -241,8 +241,8 @@ function checkClause(c,ctx,self=ctx.primary||ctx.a,other=ctx.other||(self===ctx.
  if(c.includes('直前の接触で何も起きていない'))return p.lastEvent==='none';if(c.includes('直前イベントが「離れる」'))return p.lastEvent==='detach';
  if(c.includes('直前に別ぽちょへ衝突済み')||c.includes('直前の衝突から短時間以内'))return now-p.lastContactAt<1600;
  if(c.includes('その反動で今回の相手に接触')||c.includes('他ぽちょに押されて高速化')||c.includes('第三者へ衝突')){const prev=self===ctx.a?ctx.prevPushedByA:ctx.prevPushedByB;return prev&&prev!==q?.id&&now-p.lastPushAt<2000;}
- if(c.includes('下から高速で飛んできた相手'))return q&&q.velocity.y<0&&ov>=T.HIGH;
- if(c.includes('下方向へ動いている相手'))return q&&q.velocity.y>0;
+ if(c.includes('下から高速で飛んできた相手'))return other&&other.velocity.y<0&&ov>=T.HIGH;
+ if(c.includes('下方向へ動いている相手'))return other&&other.velocity.y>0;
  if(c.includes('接触時にほぼ同じ方向へ移動')){if(!other)return false;const dot=self.velocity.x*other.velocity.x+self.velocity.y*other.velocity.y;return dot>0}
  if(c.includes('今度は別相手')||c.includes('今回が別相手')||c.includes('別の相手'))return p.lastContactId!==q?.id||rec?.count<=1;
  if(c.includes('直前の接触相手と別の色'))return p.contactColors.length>=2&&p.contactColors.at(-2)!==q?.color;
