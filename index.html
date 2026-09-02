@@ -1,5 +1,5 @@
-<!doctype html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>POCHO LAB</title><link rel="stylesheet" href="styles.css"><script src="https://cdn.jsdelivr.net/npm/matter-js@0.20.0/build/matter.min.js"></script></head><body><main class="wrap">
-<header><div><div class="eyebrow">ぽちょ自動バランス検証機構</div><h1>POCHO LAB</h1><p>現行の物理・条件データを使って自動射出し、NONE / STICK / POP とグループ成長を実測します。</p></div><div class="version">LAB v0.2<br><small>base: game v0.1.6</small></div></header>
+<!doctype html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>POCHO LAB</title><link rel="stylesheet" href="styles_v03.css?v=3"><script src="https://cdn.jsdelivr.net/npm/matter-js@0.20.0/build/matter.min.js"></script></head><body><main class="wrap">
+<header><div><div class="eyebrow">ぽちょ自動バランス検証機構</div><h1>POCHO LAB</h1><p>現行の物理・条件データを使って自動射出し、NONE / STICK / POP とグループ成長を実測します。</p></div><div class="version">LAB v0.3<br><small>base: game v0.1.6</small></div></header>
 <section class="panel controls"><h2>シミュレーション設定</h2><div class="grid">
 <label>ゲーム数<input id="games" type="number" min="1" max="1000" value="5"></label>
 <label>モード<select id="mode"><option value="15">SHORT / 15発</option><option value="30" selected>MIDDLE / 30発</option><option value="50">LONG / 50発</option></select></label>
@@ -10,6 +10,20 @@
 <label class="check"><input id="include-disabled" type="checkbox"> DBで disabled の条件も実験的に含める（unimplemented は除外）</label>
 <div class="buttons"><button id="run" class="primary">シミュレーション開始</button><button id="stop" disabled>停止</button><button id="csv" disabled>接触ログCSV</button><button id="summary-csv" disabled>集計CSV</button></div>
 <div class="progress"><div id="bar"></div></div><div id="status">待機中（まず5ゲームで動作確認する設定です）</div></section>
+
+<section class="panel observer-panel"><div class="observer-head"><div><h2>観察プレイ / HUMAN vs AI</h2><p class="hint">実際の盤面を見ながら、人間操作とAI自動射出を同じ条件判定で比較できます。接触ごとに採用条件と裏成立条件を記録します。</p></div><div id="observe-last" class="observe-last"></div></div>
+<div class="observer-controls">
+<label>操作<select id="observe-control"><option value="human">人間操作</option><option value="ai">AI自動</option></select></label>
+<label>モード<select id="observe-mode"><option value="15">SHORT / 15発</option><option value="30" selected>MIDDLE / 30発</option><option value="50">LONG / 50発</option></select></label>
+<label>AIタイプ<select id="observe-ai"><option value="random">ランダム</option><option value="strong">強打多め</option><option value="weak">弱打多め</option><option value="center">中央狙い</option><option value="crowd">密集狙い</option></select></label>
+<label class="range-label">AI間隔 <input id="observe-interval" type="range" min="350" max="1800" step="50" value="900"><span id="observe-interval-value">900ms</span></label>
+</div>
+<div class="observer-actions"><button id="observe-start" class="primary">開始 / リセット</button><button id="observe-reset">盤面リセット</button><button id="observe-export">観察ログCSV</button><span id="observe-status">待機中</span></div>
+<div id="observe-human-help" class="human-help">下部の装填ぽちょを引っ張って離してください。引いた方向と逆へ射出します。</div>
+<div class="observer-layout"><div class="canvas-wrap"><canvas id="observe-canvas" width="390" height="650"></canvas></div><div class="observer-side">
+<div class="observer-kpis"><div><small>SHOT</small><b id="observe-shots">0 / 30</b></div><div><small>盤面</small><b id="observe-bodies">0</b></div><div><small>接触</small><b id="observe-contacts">0</b></div><div><small>NONE</small><b id="observe-none">—</b></div><div><small>STICK</small><b id="observe-stick">—</b></div><div><small>POP</small><b id="observe-pop">—</b></div></div>
+<h3>ライブログ</h3><div id="observe-log" class="observe-log"><div class="empty-log">まだ接触ログはありません。</div></div></div></div>
+</section>
 <section class="results"><div class="kpi none"><small>NONE</small><strong id="none-pct">—</strong><span id="none-count">0</span></div><div class="kpi stick"><small>STICK</small><strong id="stick-pct">—</strong><span id="stick-count">0</span></div><div class="kpi pop"><small>POP</small><strong id="pop-pct">—</strong><span id="pop-count">0</span></div><div class="kpi"><small>総接触</small><strong id="contacts">0</strong><span id="shots">0 shots</span></div></section>
 <section class="panel"><h2>盤面成長</h2><div class="metrics" id="growth"></div></section>
 <section class="two"><div class="panel"><h2>レイヤー別・実際の決着</h2><div id="layer-table"></div></div><div class="panel"><h2>速度帯別</h2><div id="speed-table"></div></div></section>
@@ -17,4 +31,4 @@
 <section class="panel"><h2>危険な条件 TOP 30</h2><p class="hint">「裏成立率」は優先順位やON/OFFを無視して、その接触で条件自体が成立した割合です。実際の採用率との差が大きい条件は、OR密度を押し上げている可能性があります。</p><div id="rule-table"></div></section>
 <section class="panel"><h2>グループ成長</h2><div id="group-table"></div></section>
 <section class="panel note"><h2>読み方</h2><p>目標を例として <b>NONE 80% / STICK 15% / POP 5%</b> に置く場合でも、平均グループサイズ・5体以上グループ率・1POP平均消滅数も同時に見てください。反応率が同じでも、巨大グループが頻繁にできると盤面は急激に消えます。</p></section>
-</main><script src="data.js"></script><script src="lab.js"></script></body></html>
+</main><script src="data_v03.js?v=3"></script><script src="lab_v03.js?v=3"></script><script src="observer_v03.js?v=3"></script></body></html>
