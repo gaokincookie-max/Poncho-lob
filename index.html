@@ -1,5 +1,5 @@
-<!doctype html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>POCHO LAB</title><link rel="stylesheet" href="styles_v07.css?v=7"><script src="https://cdn.jsdelivr.net/npm/matter-js@0.20.0/build/matter.min.js"></script></head><body><main class="wrap">
-<header><div><div class="eyebrow">ぽちょ自動バランス検証機構</div><h1>POCHO LAB</h1><p>初期ぽちょ7体を含む現行の物理・条件データを使って自動射出し、NONE / STICK / POP とグループ成長を実測します。</p></div><div class="version">LAB v0.7<br><small>role analytics</small></div></header>
+<!doctype html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>POCHO LAB</title><link rel="stylesheet" href="styles_v08.css?v=8"><script src="https://cdn.jsdelivr.net/npm/matter-js@0.20.0/build/matter.min.js"></script></head><body><main class="wrap">
+<header><div><div class="eyebrow">ぽちょ自動バランス検証機構</div><h1>POCHO LAB</h1><p>本家v0.2.1と同じ初期7体・3体1セット・上向き重力・条件状態を使って自動射出し、挙動と役を実測します。</p></div><div class="version">LAB v0.8<br><small>3SET sync + role fixes</small></div></header>
 <section class="panel controls"><h2>シミュレーション設定</h2><div class="grid">
 <label>ゲーム数<input id="games" type="number" min="1" max="1000" value="5"></label>
 <label>モード<select id="mode"><option value="15">SHORT / 15発</option><option value="30" selected>MIDDLE / 30発</option><option value="50">LONG / 50発</option></select></label>
@@ -19,7 +19,7 @@
 <label class="range-label">AI間隔 <input id="observe-interval" type="range" min="350" max="1800" step="50" value="900"><span id="observe-interval-value">900ms</span></label>
 </div>
 <div class="observer-actions"><button id="observe-start" class="primary">開始 / リセット</button><button id="observe-reset">盤面リセット</button><button id="observe-export">観察ログCSV</button><button id="observe-summary-export">観察集計CSV</button><span id="observe-status">待機中</span></div>
-<div id="observe-human-help" class="human-help">下部の装填ぽちょを引っ張って離してください。引いた方向と逆へ射出します。</div>
+<div id="observe-human-help" class="human-help">射出ゾーン内の3ぽちょの好きな1体を掴み、振り回して離してください。3体で1カウントです。</div>
 <div class="observer-layout"><div class="canvas-wrap"><canvas id="observe-canvas" width="390" height="650"></canvas></div><div class="observer-side">
 <div class="observer-kpis"><div><small>SHOT</small><b id="observe-shots">0 / 30</b></div><div><small>盤面</small><b id="observe-bodies">0</b></div><div><small>接触</small><b id="observe-contacts">0</b></div><div><small>NONE</small><b id="observe-none">—</b></div><div><small>STICK</small><b id="observe-stick">—</b></div><div><small>POP</small><b id="observe-pop">—</b></div></div>
 <h3>ライブログ</h3><div id="observe-log" class="observe-log"><div class="empty-log">まだ接触ログはありません。</div></div></div></div>
@@ -40,4 +40,4 @@
 <section class="panel"><h2>グループ成長</h2><div id="group-table"></div></section>
 <section class="panel"><h2>役・レア度分析</h2><p class="hint">「成立率」は、その役のトリガー（くっつく/弾ける/何も起こらない）が起きたイベントのうち何%で成立したかです。高レアなのに成立率が高い役を警告表示します。代表表示回数と、1イベントで複数役が同時成立した多段数も別に集計します。</p><div id="role-summary" class="metrics"></div><div id="role-table"></div></section>
 <section class="panel note"><h2>読み方</h2><p>目標を例として <b>NONE 80% / STICK 15% / POP 5%</b> に置く場合でも、平均グループサイズ・5体以上グループ率・1POP平均消滅数も同時に見てください。反応率が同じでも、巨大グループが頻繁にできると盤面は急激に消えます。</p></section>
-</main><script src="data_v07.js?v=7"></script><script src="lab_v07.js?v=7"></script><script src="observer_v07.js?v=7"></script></body></html>
+</main><script src="data_v08.js?v=8"></script><script src="lab_v08.js?v=8"></script><script src="observer_v08.js?v=8"></script></body></html>
