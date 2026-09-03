@@ -1,14 +1,14 @@
-<!doctype html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>POCHO LAB</title><link rel="stylesheet" href="styles_v04.css?v=4"><script src="https://cdn.jsdelivr.net/npm/matter-js@0.20.0/build/matter.min.js"></script></head><body><main class="wrap">
-<header><div><div class="eyebrow">ぽちょ自動バランス検証機構</div><h1>POCHO LAB</h1><p>現行の物理・条件データを使って自動射出し、NONE / STICK / POP とグループ成長を実測します。</p></div><div class="version">LAB v0.4<br><small>base: game v0.1.6</small></div></header>
+<!doctype html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>POCHO LAB</title><link rel="stylesheet" href="styles_v07.css?v=7"><script src="https://cdn.jsdelivr.net/npm/matter-js@0.20.0/build/matter.min.js"></script></head><body><main class="wrap">
+<header><div><div class="eyebrow">ぽちょ自動バランス検証機構</div><h1>POCHO LAB</h1><p>初期ぽちょ7体を含む現行の物理・条件データを使って自動射出し、NONE / STICK / POP とグループ成長を実測します。</p></div><div class="version">LAB v0.7<br><small>role analytics</small></div></header>
 <section class="panel controls"><h2>シミュレーション設定</h2><div class="grid">
 <label>ゲーム数<input id="games" type="number" min="1" max="1000" value="5"></label>
 <label>モード<select id="mode"><option value="15">SHORT / 15発</option><option value="30" selected>MIDDLE / 30発</option><option value="50">LONG / 50発</option></select></label>
 <label>AI射出<select id="ai"><option value="random">ランダム</option><option value="strong">強打多め</option><option value="weak">弱打多め</option><option value="center">中央狙い</option><option value="crowd">密集狙い</option></select></label>
 <label>乱数シード<input id="seed" type="number" value="20260903"></label>
 </div>
-<div class="toggle-title">判定レイヤー <span>STICK / POP を別々に切替</span></div><div id="layer-toggles" class="layers"></div>
+<div class="toggle-title">判定レイヤー <span>STICK / POP を別々に切替</span></div><div id="layer-toggles" class="layers"></div><div id="config-state" class="config-state">現在設定を読み込み中…</div><div class="setting-note">レイヤー設定は保存され、通常シミュレーションと観察モードで共通使用します。実行後に変更した場合、過去の集計は自動再計算されません。</div>
 <label class="check"><input id="include-disabled" type="checkbox"> DBで disabled の条件も実験的に含める（unimplemented は除外）</label><div class="rule-off-tools"><span id="rule-off-count">個別OFF 0件</span><button id="rule-off-reset" class="mini">個別OFFを全解除</button><span class="hint-inline">危険条件表や観察ログから1条件ずつ停止できます。</span></div>
-<div class="buttons"><button id="run" class="primary">シミュレーション開始</button><button id="stop" disabled>停止</button><button id="csv" disabled>接触ログCSV</button><button id="summary-csv" disabled>集計CSV</button></div>
+<div class="buttons"><button id="run" class="primary">シミュレーション開始</button><button id="stop" disabled>停止</button><button id="csv" disabled>接触ログCSV</button><button id="summary-csv" disabled>集計CSV</button><button id="role-csv" disabled>役集計CSV</button></div>
 <div class="progress"><div id="bar"></div></div><div id="status">待機中（まず5ゲームで動作確認する設定です）</div></section>
 
 <section class="panel observer-panel"><div class="observer-head"><div><h2>観察プレイ / HUMAN vs AI</h2><p class="hint">実際の盤面を見ながら、人間操作とAI自動射出を同じ条件判定で比較できます。接触ごとに採用条件と裏成立条件を記録します。</p></div><div id="observe-last" class="observe-last"></div></div>
@@ -29,13 +29,15 @@
 <div class="two"><div><h4>密度別</h4><div id="observe-density-table"></div></div><div><h4>進行度別</h4><div id="observe-phase-table"></div></div></div>
 <div><h4>危険な条件 TOP 30</h4><div id="observe-rule-table"></div></div>
 <div><h4>グループ成長</h4><div id="observe-group-table"></div></div>
+<div><h4>役・レア度分析</h4><div id="observe-role-summary"></div><div id="observe-role-table"></div></div>
 </div>
 </section>
 <section class="results"><div class="kpi none"><small>NONE</small><strong id="none-pct">—</strong><span id="none-count">0</span></div><div class="kpi stick"><small>STICK</small><strong id="stick-pct">—</strong><span id="stick-count">0</span></div><div class="kpi pop"><small>POP</small><strong id="pop-pct">—</strong><span id="pop-count">0</span></div><div class="kpi"><small>総接触</small><strong id="contacts">0</strong><span id="shots">0 shots</span></div></section>
 <section class="panel"><h2>盤面成長</h2><div class="metrics" id="growth"></div></section>
 <section class="two"><div class="panel"><h2>レイヤー別・実際の決着</h2><div id="layer-table"></div></div><div class="panel"><h2>速度帯別</h2><div id="speed-table"></div></div></section>
 <section class="two"><div class="panel"><h2>密度別</h2><div id="density-table"></div></div><div class="panel"><h2>進行度別</h2><div id="phase-table"></div></div></section>
-<section class="panel"><h2>危険な条件 TOP 30</h2><p class="hint">「裏成立率」は優先順位やON/OFFを無視して、その接触で条件自体が成立した割合です。実際の採用率との差が大きい条件は、OR密度を押し上げている可能性があります。</p><div id="rule-table"></div></section>
+<section class="panel"><h2>危険な条件 TOP 30</h2><p class="hint">「裏成立率」は条件そのものの危険度を見るため、OFF中でも成立を数えます。OFF中の条件には「個別OFF」「レイヤーOFF」「DB OFF」と表示され、採用数は増えません。</p><div id="rule-table"></div></section>
 <section class="panel"><h2>グループ成長</h2><div id="group-table"></div></section>
+<section class="panel"><h2>役・レア度分析</h2><p class="hint">「成立率」は、その役のトリガー（くっつく/弾ける/何も起こらない）が起きたイベントのうち何%で成立したかです。高レアなのに成立率が高い役を警告表示します。代表表示回数と、1イベントで複数役が同時成立した多段数も別に集計します。</p><div id="role-summary" class="metrics"></div><div id="role-table"></div></section>
 <section class="panel note"><h2>読み方</h2><p>目標を例として <b>NONE 80% / STICK 15% / POP 5%</b> に置く場合でも、平均グループサイズ・5体以上グループ率・1POP平均消滅数も同時に見てください。反応率が同じでも、巨大グループが頻繁にできると盤面は急激に消えます。</p></section>
-</main><script src="data_v04.js?v=4"></script><script src="lab_v04.js?v=4"></script><script src="observer_v04.js?v=4"></script></body></html>
+</main><script src="data_v07.js?v=7"></script><script src="lab_v07.js?v=7"></script><script src="observer_v07.js?v=7"></script></body></html>
