@@ -15,3 +15,6 @@ POCHO LAB v0.8.1
 - 危険条件から個別ON/OFF可能
 
 `index.html` を GitHub Pages で公開して使用してください。
+
+## v0.8.2 experiment
+「短い生涯」「芋づる式」の役条件だけを強化したLAB先行実験版です。本家には未反映です。
