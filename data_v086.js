@@ -3365,19 +3365,19 @@ window.POCHO_DATA = {
     {
       "id": "fever-something-amazing",
       "name": "なんかすごい",
-      "condition": "1秒以内にSTICK・通常POP・誘爆・表情変化・★3以上の役がすべて1回以上発生",
+      "condition": "1秒以内に盤面上の離れた3か所以上で独立した接触イベントが発生 ＋ STICK・通常POP・誘爆・表情変化が各1回以上 ＋ ★4以上の役が1回以上",
       "active": true
     },
     {
       "id": "fever-collapse",
       "name": "大崩壊",
-      "condition": "盤面12体以上から1.5秒以内に独立POP連鎖2回以上 ＋ 合計5体以上消滅 ＋ なお盤面7体以上残存",
+      "condition": "盤面16体以上から1秒以内に独立POP連鎖3回以上 ＋ 合計8体以上消滅 ＋ 消滅地点が画面左右の両側に存在 ＋ なお盤面6体以上残存",
       "active": true
     },
     {
       "id": "fever-great-gathering",
       "name": "大集合",
-      "condition": "盤面の70%以上が1グループ ＋ そのグループ10体以上 ＋ 4色以上 ＋ 3表情すべて ＋ 直近2秒以内に新加入あり",
+      "condition": "盤面の80%以上が1グループ ＋ そのグループ12体以上 ＋ 5色以上 ＋ 3表情すべて ＋ 装飾2種類以上 ＋ 直近1秒以内に2体以上が新加入",
       "active": true
     }
   ]
