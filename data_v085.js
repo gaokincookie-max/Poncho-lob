@@ -3342,43 +3342,5 @@ window.POCHO_DATA = {
       "event": "periodic",
       "active": true
     }
-  ],
-  "feverRules": [
-    {
-      "id": "fever-full-house",
-      "name": "満員御礼",
-      "condition": "盤面15体以上 ＋ 5体以上グループが2つ以上 ＋ 単独ぽちょ3体以上 ＋ 3色以上存在",
-      "active": true
-    },
-    {
-      "id": "fever-strange-peace",
-      "name": "奇妙な平和",
-      "condition": "盤面12体以上 ＋ 直近5秒STICKなし ＋ 直近5秒POPなし ＋ その5秒でNONE接触6回以上",
-      "active": true
-    },
-    {
-      "id": "fever-twin-giants",
-      "name": "双璧",
-      "condition": "10体以上の接着グループが2つ以上同時に存在 ＋ 両グループとも3色以上",
-      "active": true
-    },
-    {
-      "id": "fever-something-amazing",
-      "name": "なんかすごい",
-      "condition": "1秒以内にSTICK・通常POP・誘爆・表情変化・★3以上の役がすべて1回以上発生",
-      "active": true
-    },
-    {
-      "id": "fever-collapse",
-      "name": "大崩壊",
-      "condition": "盤面12体以上から1.5秒以内に独立POP連鎖2回以上 ＋ 合計5体以上消滅 ＋ なお盤面7体以上残存",
-      "active": true
-    },
-    {
-      "id": "fever-great-gathering",
-      "name": "大集合",
-      "condition": "盤面の70%以上が1グループ ＋ そのグループ10体以上 ＋ 4色以上 ＋ 3表情すべて ＋ 直近2秒以内に新加入あり",
-      "active": true
-    }
   ]
 };
