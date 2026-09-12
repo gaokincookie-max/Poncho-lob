@@ -1,5 +1,5 @@
-<!doctype html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>POCHO LAB v0.9.0</title><link rel="stylesheet" href="styles_v08.css?v=8"><script src="https://cdn.jsdelivr.net/npm/matter-js@0.20.0/build/matter.min.js"></script></head><body><main class="wrap">
-<header><div><div class="eyebrow">ぽちょ自動バランス検証機構</div><h1>POCHO LAB</h1><p>本家v0.3.2bのゲーム判定・物理定数・FEVER条件へ再同期し、★6隠し役候補7種の超低確率成立も検証します。</p></div><div class="version">LAB v0.9.0<br><small>main v0.3.2b sync + ★6 secret-role trial</small></div></header>
+<!doctype html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>POCHO LAB v0.9.1</title><link rel="stylesheet" href="styles_v08.css?v=8"><script src="https://cdn.jsdelivr.net/npm/matter-js@0.20.0/build/matter.min.js"></script></head><body><main class="wrap">
+<header><div><div class="eyebrow">ぽちょ自動バランス検証機構</div><h1>POCHO LAB</h1><p>本家v0.3.2bのゲーム判定・物理定数・FEVER条件へ再同期し、★6隠し役候補7種について、成立だけでなく「あと何条件まで届いたか」も段階別に診断します。</p></div><div class="version">LAB v0.9.1<br><small>★6 near-miss diagnostics + main v0.3.2b sync</small></div></header>
 <section class="panel controls"><h2>シミュレーション設定</h2><div class="grid">
 <label>ゲーム数<input id="games" type="number" min="1" max="1000" value="1000"></label>
 <label>モード<select id="mode"><option value="15">SHORT / 15発</option><option value="30">MIDDLE / 30発</option><option value="50" selected>LONG / 50発</option></select></label>
@@ -40,8 +40,8 @@
 <section class="panel"><h2>危険な条件 TOP 30</h2><p class="hint">「裏成立率」は条件そのものの危険度を見るため、OFF中でも成立を数えます。OFF中の条件には「個別OFF」「レイヤーOFF」「DB OFF」と表示され、採用数は増えません。</p><div id="rule-table"></div></section>
 <section class="panel"><h2>グループ成長</h2><div id="group-table"></div></section>
 <section class="two"><div class="panel"><h2>誘爆条件分析</h2><p class="hint">通常POP後、接着グラフを1段ずつ伝播します。条件不成立のぽちょでその枝は停止します。</p><div id="induced-table"></div></div><div class="panel"><h2>表情変化分析</h2><p class="hint">表情変化は4秒クールダウン・同一条件は1個体1回。通常接触よりかなり厳しい条件です。</p><div id="emotion-table"></div></div></section>
-<section class="panel"><h2>★6 隠し役候補・超低確率分析</h2><p class="hint">目標は「1000ゲームで0〜1回程度」、0回でも候補として正常です。赤い★6は本家未実装の実験条件で、成立時はLAB上でもFEVERを強制発動/延長します。</p><div id="secret-role-table"></div></section>
+<section class="panel"><h2>★6 隠し役候補・超低確率分析</h2><p class="hint">目標は「1000ゲームで0〜1回程度」。0回でも、各候補の最接近条件数・観測最大値・条件別通過回数を全結果JSONへ記録し、事実上不可能なボトルネックを切り分けます。</p><div id="secret-role-table"></div></section>
 <section class="panel"><h2>FEVER発生率分析</h2><p class="hint">本家では発動条件名を表示しません。LABだけ各盤面全体条件の「何ゲームに1回」を表示します。同じ条件は1ゲーム1回まで。</p><div id="fever-table"></div></section>
 <section class="panel"><h2>役・レア度分析</h2><p class="hint">「成立率」は、その役のトリガー（くっつく/弾ける/何も起こらない）が起きたイベントのうち何%で成立したかです。高レアなのに成立率が高い役を警告表示します。代表表示回数と、1イベントで複数役が同時成立した多段数も別に集計します。</p><div id="role-summary" class="metrics"></div><div id="role-table"></div></section>
 <section class="panel note"><h2>読み方</h2><p>目標を例として <b>NONE 80% / STICK 15% / POP 5%</b> に置く場合でも、平均グループサイズ・5体以上グループ率・1POP平均消滅数も同時に見てください。反応率が同じでも、巨大グループが頻繁にできると盤面は急激に消えます。</p></section>
-</main><script src="data_v090.js?v=90"></script><script src="lab_v090.js?v=90"></script><script src="observer_v090.js?v=90"></script></body></html>
+</main><script src="data_v091.js?v=91"></script><script src="lab_v091.js?v=91"></script><script src="observer_v091.js?v=91"></script></body></html>
